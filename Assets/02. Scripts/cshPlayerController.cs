@@ -72,4 +72,13 @@ public class cshPlayerController : MonoBehaviour
         Debug.Log("¹öÆ° ¶« ");
     }
 
+    private void OnCollisionEnter(Collider other)
+    {
+        if (other.gameObject.tag == "npc")
+        {
+            Destroy(other.gameObject);
+        }
+    }
+
+
 }
