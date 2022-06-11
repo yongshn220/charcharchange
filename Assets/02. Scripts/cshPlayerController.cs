@@ -49,14 +49,21 @@ public class cshPlayerController : MonoBehaviour
 
         transform.Translate(m_velocity * m_moveSpeed * Time.deltaTime, Space.World);
 
-        // m_velocity.y -= gravity * Time.deltaTime; // velocity.y를 gravity만큼 감소 
-        // ex) 점프중이면 공중에 뜸. 다시 -20만큼 일정속도로 감소해 땅에 떨어질 수 있게 
-        // rigidbody 없기 때문에 필요 
+        transform.LookAt(transform.position + m_velocity); // 현재 캐릭터가 이동하려고 하는 방향으로 쳐다봄
+
+       
 
         controller.Move(m_velocity * m_moveSpeed * Time.deltaTime); // charactor controller에 있는 move함수
         // 현재 지정한 방향, 크기, 플랫폼에 상관없이 캐릭터가 move
 
-        //m_isGrounded = controller.isGrounded; // 캐릭터가 땅 위에 있으면 true, 공중에 있으면 false로 
+    }
+
+  
+
+
+    public void OnVirtualPadAccel() // accel 버튼 누르면 실행 
+    {
+        m_moveSpeed = 10.0f;
     }
 
 }
