@@ -12,7 +12,7 @@ public class cshButton : MonoBehaviour
     {
         btnAccel.gameObject.SetActive(true); // btnAccel 버튼 활성화 
         btnAccel.onClick.RemoveAllListeners(); // 일단 버튼의 클릭과 관련된 모든 이벤트 제거 
-        btnAccel.onClick.AddListener(OnClickAccelButton); // 함수를 이벤트 리스너로 추가 
+        //btnAccel.onClick.AddListener(OnClickAccelButton); // 함수를 이벤트 리스너로 추가 
 
     }
     void Update()
@@ -29,10 +29,10 @@ public class cshButton : MonoBehaviour
     }
 */
 
-    private void OnClickAccelButton()
+  /*  private void OnClickAccelButton()
     {
         sPlayer.OnVirtualPadAccel();
         Debug.Log("button click");
-    }
+    }*/
 }
 
