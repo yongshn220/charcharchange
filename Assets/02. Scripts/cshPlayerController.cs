@@ -30,14 +30,8 @@ public class cshPlayerController : MonoBehaviour
     void Update()
     {
         PlayerMove(); // 이동하는 함수 호출
-        //m_animator.SetBool("Jump", !m_isGrounded); // Jump라고 하는 bool parameter를 m_isGrounded의 반대로 
+       
     }
-
-
-
-   
-
-
 
 
     private void PlayerMove()
@@ -58,6 +52,7 @@ public class cshPlayerController : MonoBehaviour
         // m_velocity.y -= gravity * Time.deltaTime; // velocity.y를 gravity만큼 감소 
         // ex) 점프중이면 공중에 뜸. 다시 -20만큼 일정속도로 감소해 땅에 떨어질 수 있게 
         // rigidbody 없기 때문에 필요 
+
         controller.Move(m_velocity * m_moveSpeed * Time.deltaTime); // charactor controller에 있는 move함수
         // 현재 지정한 방향, 크기, 플랫폼에 상관없이 캐릭터가 move
 
