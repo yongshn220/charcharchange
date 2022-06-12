@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cshDestroyNpc : MonoBehaviour
+public class cshNpcController : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    public int id = 0;
+
     void Start()
     {
         
@@ -15,12 +18,4 @@ public class cshDestroyNpc : MonoBehaviour
     {
         
     }
-
-  /*  private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "npc")
-        {
-            Destroy(other.gameObject);
-        }
-    }*/
 }

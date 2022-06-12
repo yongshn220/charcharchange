@@ -13,7 +13,12 @@ public class cshPlayerController : MonoBehaviour
 
     public cshJoystick sJoystick; // background가 가지고 있는 스크립트(가상 패드를 x,y축으로 얼만큼 이동시키고 있는지 가져오기 위함) 
     public float m_moveSpeed = 2.0f; // 캐릭터 이동 속도
-   // public float m_jumpForce = 5.0f; // 점프 높이 
+                                   
+
+    public GameObject player0, player1, player2;
+
+    public int hp = 3;
+
 
 
 
@@ -21,6 +26,17 @@ public class cshPlayerController : MonoBehaviour
     {
      
         player = GetComponent<GameObject>();
+
+     
+
+       /* player1 = transform.GetChild(0).gameObject;
+        player2 = transform.GetChild(1).gameObject;
+        player3 = transform.GetChild(2).gameObject;
+
+*/
+        player0.gameObject.SetActive(true);
+        player1.gameObject.SetActive(false);
+        player2.gameObject.SetActive(false);
 
     }
 
@@ -52,14 +68,7 @@ public class cshPlayerController : MonoBehaviour
 
     }
 
-  
 
-
-/*    public void OnVirtualPadAccel() // accel 버튼 누르면 실행 
-    {
-        m_moveSpeed = 10.0f;
-    }
-*/
     public void OnPointerDown()
     {
         m_moveSpeed = 10.0f;
@@ -72,13 +81,58 @@ public class cshPlayerController : MonoBehaviour
         Debug.Log("버튼 땜 ");
     }
 
-    private void OnCollisionEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+       
         if (other.gameObject.tag == "npc")
         {
+           // cshNpcController npc = other.gameObject.GetComponent<cshNpcController>();
+           // npc.id
+
             Destroy(other.gameObject);
+
+   
+
+            /* {
+                 hp--;
+                 if (hp == 0) Debug.Log("Game Over");
+
+             }*/
+            if (other.gameObject.name == "npc1")
+            {
+                if (player0.gameObject.activeInHierarchy) // 첫번째 캐릭터라면 
+                {
+
+                    player1.SetActive(true);
+                    player0.SetActive(false);
+                }
+            }
+            else if (other.gameObject.name == "npc2")
+            {
+                if (player1.gameObject.activeInHierarchy)
+                {
+                    player1.SetActive(false);
+                    player2.SetActive(true);
+                }
+            }
+            else if (other.gameObject.name == "npc3")
+            {
+                if (player2.gameObject.activeInHierarchy)
+                {
+                    Debug.Log("Win!!");
+                }
+            }
+            else
+            {
+                hp--;
+                if (hp == 0) Debug.Log("Game Over");
+            }
+
+
+
         }
     }
+
 
 
 }
