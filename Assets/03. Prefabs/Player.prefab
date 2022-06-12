@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5431710375156760357}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: npc
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,3 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sJoystick: {fileID: 0}
   m_moveSpeed: 2
+  player: []
+  parentPlayer: {fileID: 0}
+  hp: 3
+  cshGameManager: {fileID: 0}
+  playerId: 0

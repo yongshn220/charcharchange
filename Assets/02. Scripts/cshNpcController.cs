@@ -6,7 +6,7 @@ public class cshNpcController : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public int id = 0;
+    public int id;
 
     void Start()
     {

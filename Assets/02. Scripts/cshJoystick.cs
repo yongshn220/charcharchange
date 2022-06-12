@@ -20,7 +20,7 @@ public class cshJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPoin
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Joystick >>> OnDrag()");
+        /*Debug.Log("Joystick >>> OnDrag()");*/
         Vector2 pos;
 
         //배경 영역에 터치가 발생할 때
