@@ -8,6 +8,7 @@ public class cshGameManager : MonoBehaviour
     public GameObject[] spawns;
     public GameObject[] spawnPrefabs;
     public int playerId;
+    public Mesh[] meshes;
 
     // Start is called before the first frame update
     void Start()
