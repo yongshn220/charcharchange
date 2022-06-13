@@ -33,12 +33,16 @@ public class cshJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPoin
             pos.y = (pos.y / imgBG.rectTransform.sizeDelta.y);
 
             vInputVector = new Vector3(pos.x, pos.y, 0);
+
+
             vInputVector = (vInputVector.magnitude > 1.0f) ? vInputVector.normalized : vInputVector;
             // 벡터의 길이가 1보다 크면 1로
 
             //Joystick Image 움직임
             imgJoystick.rectTransform.anchoredPosition = new Vector3(vInputVector.x * (imgBG.rectTransform.sizeDelta.x / 2),
                                                                     vInputVector.y * (imgBG.rectTransform.sizeDelta.y / 2));
+
+            Debug.Log("vInputVector: " + vInputVector);
         }
     }
 

@@ -10,9 +10,14 @@ public class cshGameManager : MonoBehaviour
     public int playerId;
     public Mesh[] meshes;
 
+    public static cshGameManager instance;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+       
         spawns = GameObject.FindGameObjectsWithTag("spawn");
 
         foreach (GameObject spawn in spawns)
@@ -23,11 +28,16 @@ public class cshGameManager : MonoBehaviour
             x.transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(1, 360), 0));
         }
 
-        playerId = Random.Range(0, spawnPrefabs.Length) + 1;
+        playerId = Random.Range(0, spawnPrefabs.Length);
 
         Debug.Log("gameManager playerId :" +playerId);
      
         
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     // Update is called once per frame
