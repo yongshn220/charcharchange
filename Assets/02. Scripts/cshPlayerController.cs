@@ -117,20 +117,39 @@ public class cshPlayerController : MonoBehaviour
 
         float h = sJoystick.GetHorizontalValue(); // joystick에서 x축으로 얼마만큼 움직였는지 
         float v = sJoystick.GetVerticalValue(); // joystick에서 y축으로 얼마만큼 움직였는지
-        m_velocity = new Vector3(h, 0, v); // x, z 축 
+        m_velocity = new Vector3(0, 0, v); // x, z 축 
         m_velocity = m_velocity.normalized;
+
+        //Debug.Log("h :" + h + "v :" + v);
 
 
 
 
         playerRigidbody.position += m_velocity * m_moveSpeed * Time.deltaTime;
 
+        //TargetRotation = Quaternion.Euler(0, v*90, 0);
+
+        //h = Mathf.Rad2Deg * h;
+        float angle = h;
+
+        float curRot = transform.eulerAngles.y;
+        Debug.Log("curRot:" + curRot);
+
+        angle = angle * Mathf.Rad2Deg;
+        Debug.Log("h:"+ angle);
+
+        angle = angle + curRot;
+        Quaternion targetAngle = Quaternion.Euler(transform.eulerAngles.x, angle, transform.eulerAngles.z);
+        Debug.Log(targetAngle);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, 0.1f * Time.deltaTime);
+
+
         //transform.Rotate(0, v, 0);
 
         //x.transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(1, 360), 0));
 
-       //transform.rotation = Quaternion.Euler(new Vector3(0, 0, v)).normalized;
-            // v만큼을 rotation으로 
+        //transform.rotation = Quaternion.Euler(new Vector3(0, 0, v)).normalized;
+        // v만큼을 rotation으로 
 
 
         // transform.Translate(m_velocity * m_moveSpeed * Time.deltaTime, Space.World);

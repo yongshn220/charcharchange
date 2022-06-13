@@ -42,7 +42,7 @@ public class cshJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPoin
             imgJoystick.rectTransform.anchoredPosition = new Vector3(vInputVector.x * (imgBG.rectTransform.sizeDelta.x / 2),
                                                                     vInputVector.y * (imgBG.rectTransform.sizeDelta.y / 2));
 
-            Debug.Log("vInputVector: " + vInputVector);
+           /* Debug.Log("vInputVector: " + vInputVector);*/
         }
     }
 
@@ -53,6 +53,8 @@ public class cshJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPoin
     public void OnPointerUp(PointerEventData eventData) // ¶¼¸é 0À¸·Î 
     {
         vInputVector = Vector3.zero;
+        //vInputVector = new Vector3(pos.x, pos.y, 0);
+
         imgJoystick.rectTransform.anchoredPosition = Vector3.zero;
     }
 
