@@ -23,6 +23,8 @@ public class cshGameManager : MonoBehaviour
         }
 
         playerId = Random.Range(0, spawnPrefabs.Length) + 1;
+
+        Debug.Log("gameManager playerId :" +playerId);
      
         
     }

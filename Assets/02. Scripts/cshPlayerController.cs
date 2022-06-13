@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class cshPlayerController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class cshPlayerController : MonoBehaviour
     public cshJoystick sJoystick; // background가 가지고 있는 스크립트(가상 패드를 x,y축으로 얼만큼 이동시키고 있는지 가져오기 위함) 
     public float m_moveSpeed = 4.0f; // 캐릭터 이동 속도
 
-    public GameObject[] player;
+   
 
     public GameObject parentPlayer;
 
@@ -30,6 +31,8 @@ public class cshPlayerController : MonoBehaviour
     public List<int> idList = new List<int>();
 
     public int score=0;
+
+    private Text textScore;
 
 
 
@@ -49,11 +52,11 @@ public class cshPlayerController : MonoBehaviour
 
         GameObject npc = Resources.Load<GameObject>("npc"+playerId.ToString());
 
-        //GameObject playerObj = Instantiate(npc) as GameObject;
 
-         cloneNpc = Instantiate(npc, transform);
+        cloneNpc = Instantiate(npc, transform);
 
-        cloneNpc.transform.position = parentPlayer.transform.position;
+        textScore = GameObject.Find("Score").GetComponent<Text>();
+
 
     }
 
@@ -61,15 +64,22 @@ public class cshPlayerController : MonoBehaviour
     {
         PlayerMove(); 
 
-        if(score == 3)
+   /*     if(score == 3)
         {
             Debug.Log("win!");
         }
         if(hp == 0)
         {
             Debug.Log("die");
-        }
-       
+        }*/
+
+        //textScore.text = "Score: " + score.ToString() + "HP: " + hp.ToString();
+
+
+
+     
+
+
     }
 
 
@@ -83,6 +93,7 @@ public class cshPlayerController : MonoBehaviour
 
 
         playerRigidbody.position += m_velocity * m_moveSpeed * Time.deltaTime;
+
 
 
         //transform.Translate(m_velocity * m_moveSpeed * Time.deltaTime, Space.World);
@@ -109,7 +120,7 @@ public class cshPlayerController : MonoBehaviour
         if (other.gameObject.tag == "npc")
         {
            cshNpcController npc = other.gameObject.GetComponent<cshNpcController>();
-            Debug.Log("부딪힌 npc의 아이디:" + npc.id);
+            Debug.Log( npc.id + "와 충돌");
 
             Destroy(other.gameObject);
 
@@ -119,15 +130,7 @@ public class cshPlayerController : MonoBehaviour
                 Debug.Log("score: "+score);
                 int newPlayerId = Random.Range(0, 3) + 1;
 
-                /* if (idList.Contains(newPlayerId))
-                 {
-                     newPlayerId = Random.Range(0, 3) + 1;
-                 }
-                 else
-                 {
-                     idList.Add(newPlayerId);
-                 }
- */
+           
                 while (idList.Contains(newPlayerId))
                 {
                     newPlayerId = Random.Range(0, 3) + 1;
