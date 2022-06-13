@@ -7,11 +7,13 @@ public class npcControl : MonoBehaviour
 
     private npcManager npcManager;
 
-    private int pointIndex = 0;
+    private GameObject targetPoint;
 
     void Start()
     {
         npcManager = GetComponentInParent<npcManager>();
+
+        targetPoint = npcManager.spawnPoints.spawnPointsList[0];
     }
 
     void Update()
@@ -21,6 +23,13 @@ public class npcControl : MonoBehaviour
 
     public void move()
     {
+        
+    }
 
+    private void OnTriggerEnter(Collider other) {
+        if(other.CompareTag("Point"))
+        {
+
+        }
     }
 }

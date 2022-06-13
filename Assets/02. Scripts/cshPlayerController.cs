@@ -10,12 +10,12 @@ public class cshPlayerController : MonoBehaviour
  
 
 
-    private Vector3 m_velocity; // 3Â÷¿ø º¤ÅÍ. Ä³¸¯ÅÍ°¡ ÀÌµ¿µÉ ¹æÇâ
+    private Vector3 m_velocity; // 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private Vector3 m_rotation;
 
-    public cshJoystick sJoystick; // background°¡ °¡Áö°í ÀÖ´Â ½ºÅ©¸³Æ®(°¡»ó ÆÐµå¸¦ x,yÃàÀ¸·Î ¾ó¸¸Å­ ÀÌµ¿½ÃÅ°°í ÀÖ´ÂÁö °¡Á®¿À±â À§ÇÔ) 
-    public float m_moveSpeed = 4.0f; // Ä³¸¯ÅÍ ÀÌµ¿ ¼Óµµ
+    public cshJoystick sJoystick; // backgroundï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®(ï¿½ï¿½ï¿½ï¿½ ï¿½Ðµå¸¦ x,yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½Ìµï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½) 
+    public float m_moveSpeed = 6.0f; // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½
 
 
     public int hp = 3;
@@ -55,7 +55,7 @@ public class cshPlayerController : MonoBehaviour
 
 
 
-        Debug.Log("gameManager·ÎºÎÅÍ °¡Á®¿Â id" + playerId);
+        Debug.Log("gameManagerï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ id" + playerId);
 
 
         for (int i = 0; i < idList.Count; i++)
@@ -105,31 +105,20 @@ public class cshPlayerController : MonoBehaviour
     private void PlayerMove()
     {
 
-     /*   float h = sJoystick.GetHorizontalValue(); // joystick¿¡¼­ xÃàÀ¸·Î ¾ó¸¶¸¸Å­ ¿òÁ÷¿´´ÂÁö 
-        float v = sJoystick.GetVerticalValue(); // joystick¿¡¼­ yÃàÀ¸·Î ¾ó¸¶¸¸Å­ ¿òÁ÷¿´´ÂÁö
-        m_velocity = new Vector3(h, 0, v); // x, z Ãà 
+        float h = sJoystick.GetHorizontalValue(); // joystickï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶¸ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+        float v = sJoystick.GetVerticalValue(); // joystickï¿½ï¿½ï¿½ï¿½ yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶¸ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        m_velocity = new Vector3(0, 0, v); // x, z ï¿½ï¿½ 
         m_velocity = m_velocity.normalized;
 
+        if(v > 0)
+        {
+            transform.position += transform.forward * m_moveSpeed * Time.deltaTime;
+        }
+        else if (v < 0)
+        {
+            transform.position += -transform.forward * m_moveSpeed * Time.deltaTime;
+        }
 
-        playerRigidbody.position += m_velocity * m_moveSpeed * Time.deltaTime;
-
-*/
-
-        float h = sJoystick.GetHorizontalValue(); // joystick¿¡¼­ xÃàÀ¸·Î ¾ó¸¶¸¸Å­ ¿òÁ÷¿´´ÂÁö 
-        float v = sJoystick.GetVerticalValue(); // joystick¿¡¼­ yÃàÀ¸·Î ¾ó¸¶¸¸Å­ ¿òÁ÷¿´´ÂÁö
-        m_velocity = new Vector3(0, 0, v); // x, z Ãà 
-        m_velocity = m_velocity.normalized;
-
-        //Debug.Log("h :" + h + "v :" + v);
-
-
-
-
-        playerRigidbody.position += m_velocity * m_moveSpeed * Time.deltaTime;
-
-        //TargetRotation = Quaternion.Euler(0, v*90, 0);
-
-        //h = Mathf.Rad2Deg * h;
         float angle = h;
 
         float curRot = transform.eulerAngles.y;
@@ -141,33 +130,20 @@ public class cshPlayerController : MonoBehaviour
         angle = angle + curRot;
         Quaternion targetAngle = Quaternion.Euler(transform.eulerAngles.x, angle, transform.eulerAngles.z);
         Debug.Log(targetAngle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, 0.1f * Time.deltaTime);
-
-
-        //transform.Rotate(0, v, 0);
-
-        //x.transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(1, 360), 0));
-
-        //transform.rotation = Quaternion.Euler(new Vector3(0, 0, v)).normalized;
-        // v¸¸Å­À» rotationÀ¸·Î 
-
-
-        // transform.Translate(m_velocity * m_moveSpeed * Time.deltaTime, Space.World);
-
-        transform.LookAt(transform.position + m_velocity); // ÇöÀç Ä³¸¯ÅÍ°¡ ÀÌµ¿ÇÏ·Á°í ÇÏ´Â ¹æÇâÀ¸·Î ÃÄ´Ùº½
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, 2.0f * Time.deltaTime);
     }
 
 
     public void OnPointerDown()
     {
         m_moveSpeed = 10.0f;
-        Debug.Log("¹öÆ° ´­¸®´Â Áß");
+        Debug.Log("ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½");
     }
 
     public void OnPointerUp()
     {
         m_moveSpeed = 2.0f;
-        Debug.Log("¹öÆ° ¶« ");
+        Debug.Log("ï¿½ï¿½Æ° ï¿½ï¿½ ");
     }
 
     public void changePlayer(int playerId)
@@ -192,7 +168,7 @@ public class cshPlayerController : MonoBehaviour
         {
             Debug.Log("Trigger In2");
             cshNpcController npc = collision.gameObject.GetComponent<cshNpcController>();
-            Debug.Log(npc.id + "¿Í Ãæµ¹");
+            Debug.Log(npc.id + "ï¿½ï¿½ ï¿½æµ¹");
 
             Destroy(collision.gameObject);
 
