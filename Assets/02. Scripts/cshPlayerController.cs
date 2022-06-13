@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class cshPlayerController : MonoBehaviour
 {
 
- 
-  
+
+
     private Vector3 m_velocity; // 3차원 벡터. 캐릭터가 이동될 방향
-   
+
 
     public cshJoystick sJoystick; // background가 가지고 있는 스크립트(가상 패드를 x,y축으로 얼만큼 이동시키고 있는지 가져오기 위함) 
     public float m_moveSpeed = 4.0f; // 캐릭터 이동 속도
 
-   
-
-    public GameObject parentPlayer;
 
     public int hp = 3;
 
@@ -28,11 +26,16 @@ public class cshPlayerController : MonoBehaviour
 
     public GameObject cloneNpc;
 
-    public List<int> idList = new List<int>();
+    /*public List<int> idList = new List<int>();*/
 
-    public int score=0;
+    public int score = 0;
 
     private Text textScore;
+
+    List<int> idList = Enumerable.Range(1, 4).ToList();
+
+    public GameObject parentPlayer;
+
 
 
 
@@ -46,7 +49,9 @@ public class cshPlayerController : MonoBehaviour
 
         playerId = cshGameManager.playerId;
 
-        idList.Add(playerId);
+        //idList.Add(playerId);
+
+        idList.Remove(playerId);
 
         Debug.Log("gameManager로부터 가져온 id" + playerId);
 
@@ -54,8 +59,11 @@ public class cshPlayerController : MonoBehaviour
 
 
         cloneNpc = Instantiate(npc, transform);
+        cloneNpc.transform.position = parentPlayer.transform.position;
 
         textScore = GameObject.Find("Score").GetComponent<Text>();
+
+
 
 
     }
@@ -96,7 +104,7 @@ public class cshPlayerController : MonoBehaviour
 
 
 
-        //transform.Translate(m_velocity * m_moveSpeed * Time.deltaTime, Space.World);
+        // transform.Translate(m_velocity * m_moveSpeed * Time.deltaTime, Space.World);
 
         transform.LookAt(transform.position + m_velocity); // 현재 캐릭터가 이동하려고 하는 방향으로 쳐다봄
     }
@@ -114,38 +122,50 @@ public class cshPlayerController : MonoBehaviour
         Debug.Log("버튼 땜 ");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-       
-        if (other.gameObject.tag == "npc")
+        Debug.Log("Trigger IN");
+        if (collision.gameObject.tag == "npc")
         {
-           cshNpcController npc = other.gameObject.GetComponent<cshNpcController>();
+            Debug.Log("Trigger In2");
+            cshNpcController npc = collision.gameObject.GetComponent<cshNpcController>();
             Debug.Log( npc.id + "와 충돌");
 
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
 
             if (playerId == npc.id)
             {
                 score++;
                 Debug.Log("score: "+score);
-                int newPlayerId = Random.Range(0, 3) + 1;
+                // int newPlayerId = Random.Range(0, 3) + 1;
 
-           
-                while (idList.Contains(newPlayerId))
-                {
-                    newPlayerId = Random.Range(0, 3) + 1;
-
-                }
+                /*
+                     while (idList.Contains(newPlayerId))
+                     {
+                         newPlayerId = Random.Range(0, 3) + 1;
 
 
-                idList.Add(newPlayerId);
+                     }*/
+
+                // {0,1,4}
+
+                int newPlayerIdIndex = Random.Range(0, idList.Count); // 0, 1, 2 중 하나
+
+                int newPlayerId = idList[newPlayerIdIndex];
+
+                Debug.Log("newPlayerID: "+newPlayerId);
+
+                //idList.Add(newPlayerId);
 
                 Destroy(cloneNpc);
 
                 
                 GameObject newNpc = Resources.Load<GameObject>("npc" + newPlayerId.ToString());
                 cloneNpc = Instantiate(newNpc, transform);
-             
+                cloneNpc.transform.position = parentPlayer.transform.position;
+
+
+
 
                 playerId = newPlayerId;
         
