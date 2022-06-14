@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,36 +17,35 @@ public class cshPlayerController : MonoBehaviour
 
     public cshJoystick sJoystick; // background�� ������ �ִ� ��ũ��Ʈ(���� �е带 x,y������ ��ŭ �̵���Ű�� �ִ��� �������� ����) 
     public float m_moveSpeed = 6.0f; // ĳ���� �̵� �ӵ�
-
+    public GameObject player;
 
     public int hp = 3;
 
     private Rigidbody playerRigidbody;
-
     public cshGameManager cshGameManager;
-
     public int playerId;
-
     public GameObject cloneNpc;
 
     /*public List<int> idList = new List<int>();*/
 
     public int score = 0;
-
     private Text textScore;
-
     List<int> idList = Enumerable.Range(0, 3).ToList();
 
     public GameObject parentPlayer;
 
+    public CinemachineVirtualCamera cvCam;
 
+    public Text ResultText;
 
+    private Animation anim;
 
     void Start()
     {
-        //cshGameManager.instance.spawnPrefabs[0];
 
+        anim = transform.GetComponent<Animation>();
 
+        ResultText.enabled = false;
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
 
         cshGameManager = GameObject.Find("GameManager").GetComponent<cshGameManager>();
@@ -53,60 +53,56 @@ public class cshPlayerController : MonoBehaviour
         playerId = cshGameManager.playerId;
         idList.Remove(playerId);
 
-
-
-        Debug.Log("gameManager�κ��� ������ id" + playerId);
-
-
-        for (int i = 0; i < idList.Count; i++)
-        {
-            Debug.Log(idList[i]);
-        }
-
-
-        //GameObject npc = Resources.Load<GameObject>("npc"+playerId.ToString());
-
-        //npc.GetComponent
-
         changePlayer(playerId);
-
-
 
         textScore = GameObject.Find("Score").GetComponent<Text>();
 
-
+        rotatePlayer();
 
 
     }
 
+    [ContextMenu("rotate")]
+    void rotatePlayer()
+    {
+        cvCam.Follow = null;
+        anim.Play("rotate");
+
+        
+
+        Invoke("followPlayer", 1);
+    }
+
+    void followPlayer()
+    {
+        cvCam.Follow = player.transform;
+    }
+
     void Update()
     {
-        PlayerMove(); 
+        PlayerMove();
 
-   /*     if(score == 3)
+        if (score == 3)
         {
             Debug.Log("win!");
+            ResultText.enabled = true;
         }
-        if(hp == 0)
+        if (hp == 0)
         {
             Debug.Log("die");
-        }*/
-
-       // textScore.text = "Score: " + score.ToString() + "HP: " + hp.ToString();
-
-
-
-     
-
-
+        }
     }
 
 
     private void PlayerMove()
     {
-
         float h = sJoystick.GetHorizontalValue(); // joystick���� x������ �󸶸�ŭ ���������� 
         float v = sJoystick.GetVerticalValue(); // joystick���� y������ �󸶸�ŭ ����������
+
+        if(h == 0 || v == 0)
+        {
+            return;
+        }
         m_velocity = new Vector3(0, 0, v); // x, z �� 
         m_velocity = m_velocity.normalized;
 
@@ -121,15 +117,14 @@ public class cshPlayerController : MonoBehaviour
 
         float angle = h;
 
+        Debug.Log(angle);
         float curRot = transform.eulerAngles.y;
-        Debug.Log("curRot:" + curRot);
 
         angle = angle * Mathf.Rad2Deg;
-        Debug.Log("h:"+ angle);
 
         angle = angle + curRot;
         Quaternion targetAngle = Quaternion.Euler(transform.eulerAngles.x, angle, transform.eulerAngles.z);
-        Debug.Log(targetAngle);
+
         transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, 2.0f * Time.deltaTime);
     }
 
@@ -159,6 +154,11 @@ public class cshPlayerController : MonoBehaviour
        
 
         mf.sharedMesh = mesh;
+
+
+        rotatePlayer();
+
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -166,9 +166,9 @@ public class cshPlayerController : MonoBehaviour
         Debug.Log("Trigger IN");
         if (collision.gameObject.tag == "npc")
         {
-            Debug.Log("Trigger In2");
+            
             cshNpcController npc = collision.gameObject.GetComponent<cshNpcController>();
-            Debug.Log(npc.id + "�� �浹");
+          
 
             Destroy(collision.gameObject);
 
@@ -191,6 +191,8 @@ public class cshPlayerController : MonoBehaviour
 
 
                 changePlayer(newPlayerId);
+
+               // rotatePlayer();
 
                 playerId = newPlayerId;
 
