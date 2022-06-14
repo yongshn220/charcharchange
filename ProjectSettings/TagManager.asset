@@ -6,6 +6,8 @@ TagManager:
   tags:
   - npc
   - spawn
+  - Bullet
+  - Point
   layers:
   - Default
   - TransparentFX

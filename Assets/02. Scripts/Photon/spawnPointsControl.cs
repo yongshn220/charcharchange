@@ -7,7 +7,7 @@ public class spawnPointsControl : MonoBehaviour
     [SerializeField]
     public List<GameObject> spawnPointsList;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         spawnPointsList = new List<GameObject>();
 
@@ -16,6 +16,7 @@ public class spawnPointsControl : MonoBehaviour
         for(int i = 1; i < points.Length; i++)
         {
             spawnPointsList.Add(points[i].gameObject);
+            points[i].GetComponent<pointControl>().pointId = i-1;
         }
     }
 }
