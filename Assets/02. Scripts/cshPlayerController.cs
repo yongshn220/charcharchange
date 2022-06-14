@@ -30,8 +30,8 @@ public class cshPlayerController : MonoBehaviour
 
     public int score = 0;
     private Text textScore;
-    List<int> idList = Enumerable.Range(0, 3).ToList();
 
+    List<int> idList = Enumerable.Range(0, 3).ToList();
     public GameObject parentPlayer;
 
     public CinemachineVirtualCamera cvCam;
@@ -90,7 +90,11 @@ public class cshPlayerController : MonoBehaviour
         if (hp == 0)
         {
             Debug.Log("die");
+            ResultText.enabled = true;
+            ResultText.text = "GAME OVER";
         }
+
+         textScore.text = "Score: " + score.ToString() + "HP: " + hp.ToString();
     }
 
 
