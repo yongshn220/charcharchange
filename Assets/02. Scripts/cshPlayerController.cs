@@ -4,35 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class cshPlayerController : MonoBehaviour
 {
-
- 
-
-
+    private PhotonView photonView;
     private Vector3 m_velocity; // 3���� ����. ĳ���Ͱ� �̵��� ����
-
-    private Vector3 m_rotation;
 
     public cshJoystick sJoystick; // background�� ������ �ִ� ��ũ��Ʈ(���� �е带 x,y������ ��ŭ �̵���Ű�� �ִ��� �������� ����) 
     public float m_moveSpeed = 6.0f; // ĳ���� �̵� �ӵ�
-    public GameObject player;
-
+    private float idleSpeed;
     public int hp = 3;
 
     private Rigidbody playerRigidbody;
     public cshGameManager cshGameManager;
     public int playerId;
-    public GameObject cloneNpc;
-
-    /*public List<int> idList = new List<int>();*/
-
     public int score = 0;
     private Text textScore;
 
     List<int> idList = Enumerable.Range(0, 3).ToList();
-    public GameObject parentPlayer;
 
     public CinemachineVirtualCamera cvCam;
 
@@ -42,13 +33,20 @@ public class cshPlayerController : MonoBehaviour
 
     void Start()
     {
+        photonView = transform.GetComponent<PhotonView>();
+        
+        if(!photonView.IsMine)
+        {
+            return;
+        }
 
+        idleSpeed = m_moveSpeed;
         anim = transform.GetComponent<Animation>();
 
         ResultText.enabled = false;
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
 
-        cshGameManager = GameObject.Find("GameManager").GetComponent<cshGameManager>();
+        cshGameManager = cshGameManager.instance;
 
         playerId = cshGameManager.playerId;
         idList.Remove(playerId);
@@ -58,8 +56,6 @@ public class cshPlayerController : MonoBehaviour
         textScore = GameObject.Find("Score").GetComponent<Text>();
 
         rotatePlayer();
-
-
     }
 
     [ContextMenu("rotate")]
@@ -68,18 +64,21 @@ public class cshPlayerController : MonoBehaviour
         cvCam.Follow = null;
         anim.Play("rotate");
 
-        
-
         Invoke("followPlayer", 1);
     }
 
     void followPlayer()
     {
-        cvCam.Follow = player.transform;
+        cvCam.Follow = transform;
     }
 
     void Update()
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
+
         PlayerMove();
 
         if (score == 3)
@@ -135,43 +134,38 @@ public class cshPlayerController : MonoBehaviour
 
     public void OnPointerDown()
     {
-        m_moveSpeed = 10.0f;
-        Debug.Log("��ư ������ ��");
+        m_moveSpeed = m_moveSpeed * 1.2f;
     }
 
     public void OnPointerUp()
     {
-        m_moveSpeed = 2.0f;
-        Debug.Log("��ư �� ");
+        m_moveSpeed = idleSpeed;
     }
 
     public void changePlayer(int playerId)
     {
         GameObject npc = cshGameManager.instance.spawnPrefabs[playerId];
 
-   
-
         Mesh mesh = npc.GetComponent<MeshFilter>().sharedMesh;
 
-     
         MeshFilter mf = transform.GetComponent<MeshFilter>();
        
-
         mf.sharedMesh = mesh;
 
-
         rotatePlayer();
-
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
         Debug.Log("Trigger IN");
         if (collision.gameObject.tag == "npc")
         {
             
-            cshNpcController npc = collision.gameObject.GetComponent<cshNpcController>();
+            npcControl npc = collision.gameObject.GetComponent<npcControl>();
           
 
             Destroy(collision.gameObject);
@@ -186,34 +180,23 @@ public class cshPlayerController : MonoBehaviour
 
                 Debug.Log("score: "+score);
             
-
                 int newPlayerIdIndex = Random.Range(0, idList.Count); // 0, 1
 
                 int newPlayerId = idList[newPlayerIdIndex];
 
                 Debug.Log("newPlayerID: "+newPlayerId);
 
-
                 changePlayer(newPlayerId);
 
                // rotatePlayer();
 
                 playerId = newPlayerId;
-
-
             }
             else
             {
                 hp--;
                 Debug.Log("hp: "+ hp);
             }
-
-
-
-
         }
     }
-
-
-
 }

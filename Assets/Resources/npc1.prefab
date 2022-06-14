@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 6488552428360392411}
   - component: {fileID: 5810825090237620317}
   - component: {fileID: 1666281224305194147}
+  - component: {fileID: 758666800}
+  - component: {fileID: 758666798}
   m_Layer: 0
   m_Name: npc1
   m_TagString: npc
@@ -126,3 +128,42 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!111 &758666800
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3582564187556176800}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: e1c98c4fcb8bc224d96727cc2f9df685, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: e1c98c4fcb8bc224d96727cc2f9df685, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &758666798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3582564187556176800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb77462035892c4182362c0189b2a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sJoystick: {fileID: 0}
+  m_moveSpeed: 4
+  player: {fileID: 3582564187556176800}
+  hp: 3
+  cshGameManager: {fileID: 0}
+  playerId: 0
+  cloneNpc: {fileID: 0}
+  score: 0
+  parentPlayer: {fileID: 3582564187556176800}
+  cvCam: {fileID: 0}
+  ResultText: {fileID: 0}

@@ -8,12 +8,12 @@ public class npcManager : MonoBehaviour
 {
 
     public spawnPointsControl spawnPoints;
-    public GameObject[] npcs;
-
+    public cshGameManager gameManager;
     private float speed = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = cshGameManager.instance;
         spawnNpc();
     }
 
@@ -21,8 +21,10 @@ public class npcManager : MonoBehaviour
     {
         foreach(var point in spawnPoints.spawnPointsList)
         {
-            int id = Random.Range(0, 2);
-            GameObject npc = Instantiate(npcs[id], transform);
+
+            int id = Random.Range(0, 10);
+
+            GameObject npc = Instantiate(gameManager.spawnPrefabs[0], transform);
             npc.GetComponent<npcControl>().targetId = point.GetComponent<pointControl>().pointId;
             npc.GetComponent<npcControl>().targetCount = spawnPoints.spawnPointsList.Count;
             npc.transform.position = point.transform.position;

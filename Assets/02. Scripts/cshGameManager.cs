@@ -1,48 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
+using Cinemachine;
 
 public class cshGameManager : MonoBehaviour
 {
-
-    public GameObject[] spawns;
     public GameObject[] spawnPrefabs;
     public int playerId;
     public Mesh[] meshes;
 
     public static cshGameManager instance;
 
+    public GameObject playerPrefeab;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-        spawns = GameObject.FindGameObjectsWithTag("spawn");
+    public cshJoystick JoyStickcs;
+    public Text resultText;
+    public CinemachineVirtualCamera cvCamera;
 
-        foreach (GameObject spawn in spawns)
-        {
-            int index = Random.Range(0, spawnPrefabs.Length);
-
-            GameObject x = Instantiate(spawnPrefabs[index], spawn.transform.position, spawn.transform.rotation);
-            x.transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(1, 360), 0));
-        }
-
-        playerId = Random.Range(0, spawnPrefabs.Length);
-
-        Debug.Log("gameManager playerId :" +playerId);
-     
-        
-    }
-
+    private GameObject player;
     private void Awake()
     {
         instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    void Start()
     {
-        
+        playerId = Random.Range(0, spawnPrefabs.Length);
+
+        playerId = 0;
+
+        Debug.Log("gameManager playerId :" +playerId);
+
+        this.player = PhotonNetwork.Instantiate(this.playerPrefeab.name, new Vector3(24,0,-6), Quaternion.identity, 0);
+
+        setPlayerSetting();
+    }
+
+    void setPlayerSetting()
+    {
+        cshPlayerController pc = this.player.GetComponent<cshPlayerController>();
+
+        pc.sJoystick = JoyStickcs;
+        pc.ResultText = resultText;
+        pc.cvCam = cvCamera;
+
+        cvCamera.Follow = pc.transform;
+        cvCamera.LookAt = pc.transform;
     }
 }

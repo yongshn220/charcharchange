@@ -71,7 +71,7 @@ public class cshPhotonManager : MonoBehaviourPunCallbacks
 
         if(PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("TestScene");
+            PhotonNetwork.LoadLevel("GameScene");
             // Debug.Log("Room Entered");
         }
     }

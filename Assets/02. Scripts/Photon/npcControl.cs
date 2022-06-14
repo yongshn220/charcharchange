@@ -7,6 +7,8 @@ public class npcControl : MonoBehaviour
 
     private npcManager npcManager;
 
+    public int id;
+
     [SerializeField]
     private GameObject targetPoint;
 
