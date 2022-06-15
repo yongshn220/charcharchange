@@ -12,7 +12,7 @@ public class TextControl : MonoBehaviour
     void Start()
     {
         gm = cshGameManager.instance;
-        text.text = PhotonNetwork.NickName;
+        text.text = "Player";
     }
 
     // Update is called once per frame
@@ -20,4 +20,6 @@ public class TextControl : MonoBehaviour
     {
         transform.rotation = Quaternion.LookRotation(transform.position - gm.cvCamera.transform.position);
     }
+
+    
 }

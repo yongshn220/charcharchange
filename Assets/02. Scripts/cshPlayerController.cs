@@ -26,7 +26,7 @@ public class cshPlayerController : MonoBehaviour
     public int score = 0;
     private Text textScore;
 
-    List<int> idList = Enumerable.Range(0, 3).ToList();
+    List<int> idList = Enumerable.Range(0, 10).ToList();
 
     public CinemachineVirtualCamera cvCam;
 
@@ -37,7 +37,6 @@ public class cshPlayerController : MonoBehaviour
     private AudioSource audio;
 
     private bool isGameOver = false;
-
     void Start()
     {
         audio = GetComponent<AudioSource>();
