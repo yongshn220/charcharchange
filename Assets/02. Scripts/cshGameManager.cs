@@ -24,6 +24,7 @@ public class cshGameManager : MonoBehaviourPun
 
     private GameObject player;
 
+    public int m_moveSpeed;
     private void Awake()
     {
         instance = this;
@@ -32,6 +33,8 @@ public class cshGameManager : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
+        m_moveSpeed = 15;
+
         playerId = Random.Range(0, spawnPrefabs.Length);
 
         playerId = 0;
@@ -41,6 +44,25 @@ public class cshGameManager : MonoBehaviourPun
         this.player = PhotonNetwork.Instantiate(this.playerPrefeab.name, new Vector3(24,0,-21), Quaternion.identity, 0);
 
         setPlayerSetting();
+    }
+
+
+    /*
+        [ContextMenu("Down")]*/
+    public void OnPointerDown()
+    {
+        /*  m_moveSpeed = m_moveSpeed * 1.2f;*/
+        m_moveSpeed = 18;
+        Debug.Log("onPointerDown " + m_moveSpeed);
+    }
+
+    /*   [ContextMenu("Up")]*/
+    public void OnPointerUp()
+    {
+        /* m_moveSpeed = idleSpeed;*/
+        m_moveSpeed = 15;
+        Debug.Log("OnPointerUp " + m_moveSpeed);
+
     }
 
     void setPlayerSetting()

@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2855759361182120579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2855759361182120581}
+  - component: {fileID: 2855759361182120580}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2855759361182120581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855759361182120579}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2855759361182120580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855759361182120579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c596f0d941afe1a4ba114015b8d5aee7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPrefabs:
+  - {fileID: 2151966726449788839, guid: 289ce73b42337764b89edb8d61bfbd9d, type: 3}
+  - {fileID: 3800943415257459333, guid: 651dd246f9b9a8847a3b715bcffe178b, type: 3}
+  - {fileID: 3485998948100748773, guid: cd4f9f66e3f68eb4bbd02565508c987b, type: 3}
+  - {fileID: 7560566872994678356, guid: 2c7654aa62f891346af8d26e416b4728, type: 3}
+  - {fileID: 6509916130080294067, guid: f280a85ce9d85ac40a51687821072a2b, type: 3}
+  - {fileID: 1506451304644507279, guid: 00b377f7f9804cc47a7ebe3a699f0fb4, type: 3}
+  - {fileID: 7790588404741809019, guid: f73403f6d8696c949a843546d211a7fa, type: 3}
+  - {fileID: 4436012597282884850, guid: 6e1a170f1b1ae7240b346150df2317b9, type: 3}
+  - {fileID: 3628344267516878114, guid: acae44278c6386b4d8dc014071f6ae6e, type: 3}
+  - {fileID: 5645476334404602952, guid: 082b325592ebf7243b6e4242c379e96a, type: 3}
+  playerId: 0
+  meshes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  playerPrefeab: {fileID: 1080729127742301419, guid: 8255ed26a675c4d19bb16a66c53b29ec, type: 3}
+  JoyStickcs: {fileID: 0}
+  resultText: {fileID: 0}
+  cvCamera: {fileID: 0}
+  m_moveSpeed: 0

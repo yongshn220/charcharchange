@@ -13,7 +13,10 @@ public class cshPlayerController : MonoBehaviour
     private Vector3 m_velocity; // 3���� ����. ĳ���Ͱ� �̵��� ����
 
     public cshJoystick sJoystick; // background�� ������ �ִ� ��ũ��Ʈ(���� �е带 x,y������ ��ŭ �̵���Ű�� �ִ��� �������� ����) 
-    private float m_moveSpeed = 15.0f; // ĳ���� �̵� �ӵ�
+   // private float m_moveSpeed = 15.0f; // ĳ���� �̵� �ӵ�
+
+    public int m_moveSpeed;
+
     private float idleSpeed;
     public int hp = 3;
 
@@ -42,12 +45,15 @@ public class cshPlayerController : MonoBehaviour
         
         ResultText = cshGameManager.instance.resultText;
 
-        if(!photonView.IsMine)
+      
+
+        if (!photonView.IsMine)
         {
             return;
         }
 
-        idleSpeed = m_moveSpeed;
+        /*idleSpeed = m_moveSpeed;*/
+        /*m_moveSpeed = 15;*/
         anim = transform.GetComponent<Animation>();
 
         ResultText.gameObject.SetActive(false);
@@ -93,6 +99,7 @@ public class cshPlayerController : MonoBehaviour
         PlayerMove();
 
 
+        Debug.Log("moveSpeed: " + cshGameManager.instance.m_moveSpeed);
          textScore.text = "Score: " + score.ToString() + "   HP: " + hp.ToString();
     }
 
@@ -110,11 +117,11 @@ public class cshPlayerController : MonoBehaviour
 
         if(v > 0)
         {
-            transform.position += transform.forward * m_moveSpeed * Time.deltaTime;
+            transform.position += transform.forward * cshGameManager.instance.m_moveSpeed * Time.deltaTime;
         }
         else if (v < 0)
         {
-            transform.position += -transform.forward * m_moveSpeed * Time.deltaTime;
+            transform.position += -transform.forward * cshGameManager.instance.m_moveSpeed * Time.deltaTime;
         }
 
         float angle = h;
@@ -129,18 +136,6 @@ public class cshPlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, 2.0f * Time.deltaTime);
     }
 
-
-    [ContextMenu("Down")]
-    public void OnPointerDown()
-    {
-        m_moveSpeed = m_moveSpeed * 1.2f;
-    }
-
-    [ContextMenu("Up")]
-    public void OnPointerUp()
-    {
-        m_moveSpeed = idleSpeed;
-    }
 
     [PunRPC]
     public void changePlayer(int playerId)
