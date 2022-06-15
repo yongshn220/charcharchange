@@ -13,7 +13,7 @@ public class cshPlayerController : MonoBehaviour
     private Vector3 m_velocity; // 3���� ����. ĳ���Ͱ� �̵��� ����
 
     public cshJoystick sJoystick; // background�� ������ �ִ� ��ũ��Ʈ(���� �е带 x,y������ ��ŭ �̵���Ű�� �ִ��� �������� ����) 
-    public float m_moveSpeed = 6.0f; // ĳ���� �̵� �ӵ�
+    private float m_moveSpeed = 15.0f; // ĳ���� �̵� �ӵ�
     private float idleSpeed;
     public int hp = 3;
 
@@ -31,10 +31,17 @@ public class cshPlayerController : MonoBehaviour
 
     private Animation anim;
 
+    private AudioSource audio;
+
+    private bool isGameOver = false;
+
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         photonView = transform.GetComponent<PhotonView>();
         
+        ResultText = cshGameManager.instance.resultText;
+
         if(!photonView.IsMine)
         {
             return;
@@ -43,7 +50,7 @@ public class cshPlayerController : MonoBehaviour
         idleSpeed = m_moveSpeed;
         anim = transform.GetComponent<Animation>();
 
-        ResultText.enabled = false;
+        ResultText.gameObject.SetActive(false);
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
 
         cshGameManager = cshGameManager.instance;
@@ -85,21 +92,9 @@ public class cshPlayerController : MonoBehaviour
 
         PlayerMove();
 
-        if (score == 3)
-        {
-            Debug.Log("win!");
-            ResultText.enabled = true;
-        }
-        if (hp == 0)
-        {
-            Debug.Log("die");
-            ResultText.enabled = true;
-            ResultText.text = "GAME OVER";
-        }
 
-         textScore.text = "Score: " + score.ToString() + "    HP: " + hp.ToString();
+         textScore.text = "Score: " + score.ToString() + "   HP: " + hp.ToString();
     }
-
 
     private void PlayerMove()
     {
@@ -135,11 +130,13 @@ public class cshPlayerController : MonoBehaviour
     }
 
 
+    [ContextMenu("Down")]
     public void OnPointerDown()
     {
         m_moveSpeed = m_moveSpeed * 1.2f;
     }
 
+    [ContextMenu("Up")]
     public void OnPointerUp()
     {
         m_moveSpeed = idleSpeed;
@@ -157,6 +154,7 @@ public class cshPlayerController : MonoBehaviour
         mf.sharedMesh = mesh;
 
         rotatePlayer();
+        audio.Play();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -168,7 +166,7 @@ public class cshPlayerController : MonoBehaviour
         Debug.Log("Trigger IN");
         if (collision.gameObject.tag == "npc")
         {
-            
+            if(isGameOver) { return; }
             npcControl npc = collision.gameObject.GetComponent<npcControl>();
             int id = collision.gameObject.GetComponent<PhotonView>().ViewID;
 
@@ -177,7 +175,14 @@ public class cshPlayerController : MonoBehaviour
             if (playerId == npc.id)
             {
                 score++;
+                ScoreCheck();
 
+                if(isGameOver)
+                {
+                    rotatePlayer();
+                    audio.Play();
+                    return;
+                }
                 idList.Remove(playerId);
 
                 int newPlayerIdIndex = Random.Range(0, idList.Count); // 0, 1
@@ -190,6 +195,7 @@ public class cshPlayerController : MonoBehaviour
             else
             {
                 hp--;
+                ScoreCheck();
             }
         }
     }
@@ -198,5 +204,35 @@ public class cshPlayerController : MonoBehaviour
     private void DestroyNpc(int id)
     {
         Destroy(PhotonView.Find(id).gameObject);
+    }
+
+    private void ScoreCheck()
+    {
+        if (score == 3)
+        {
+            Win();
+            photonView.RPC("Lose", RpcTarget.Others);
+        }
+        if (hp == 0)
+        {
+            Lose();
+            photonView.RPC("Win", RpcTarget.Others);
+        }
+    }
+
+    [PunRPC]
+    private void Win()
+    {
+        ResultText.text = "WIN!!";
+        ResultText.gameObject.SetActive(true);
+        isGameOver = true;
+    }
+
+    [PunRPC]
+    private void Lose()
+    {
+        ResultText.text = "GAME OVER";
+        ResultText.gameObject.SetActive(true);
+        isGameOver = true;
     }
 }

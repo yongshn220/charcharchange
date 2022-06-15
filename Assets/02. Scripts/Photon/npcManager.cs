@@ -23,16 +23,21 @@ public class npcManager : MonoBehaviourPun
 
     private void spawnNpc()
     {
+        int i = 0;
         foreach(var point in spawnPoints.spawnPointsList)
         {
+            if(i >= 10 )
+            {
+                i = 0;
+            }
 
-            int id = Random.Range(0, 10);
-
-            GameObject npc = PhotonNetwork.Instantiate(gameManager.spawnPrefabs[0].name, transform.position, Quaternion.identity, 0);
+            GameObject npc = PhotonNetwork.Instantiate(gameManager.spawnPrefabs[i].name, transform.position, Quaternion.identity, 0);
             npc.transform.SetParent(transform);
             npc.GetComponent<npcControl>().targetId = point.GetComponent<pointControl>().pointId;
             npc.GetComponent<npcControl>().targetCount = spawnPoints.spawnPointsList.Count;
             npc.transform.position = point.transform.position;
+
+            i++;
         }
     }
 }

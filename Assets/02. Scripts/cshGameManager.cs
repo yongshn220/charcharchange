@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class cshGameManager : MonoBehaviourPun
 {
@@ -52,5 +53,11 @@ public class cshGameManager : MonoBehaviourPun
 
         cvCamera.Follow = pc.transform;
         cvCamera.LookAt = pc.transform;
+    }
+
+    public void Lobby()
+    {
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene("Lobby");
     }
 }

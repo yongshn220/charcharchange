@@ -36,7 +36,7 @@ public class npcControl : MonoBehaviour
     void Init()
     {
         if(!PhotonNetwork.IsMasterClient) { return; }
-        moveSpeed = Random.Range(1,5);
+        moveSpeed = Random.Range(4,6);
         UpdateTarget();
     }
 
@@ -47,30 +47,33 @@ public class npcControl : MonoBehaviour
         transform.LookAt(targetPoint.transform);
     }
 
-    private void OnTriggerEnter(Collider other) {
+    IEnumerator OnTriggerEnter(Collider other) {
 
-        
-        if(!PhotonNetwork.IsMasterClient) { return; }
+        yield return new WaitForSeconds(1.0f);
 
-        if(other.CompareTag("Point"))
+        if(PhotonNetwork.IsMasterClient)
         {
-            if(other.gameObject.GetComponent<pointControl>().pointId == targetId)
+
+            if(other.CompareTag("Point"))
             {
-                UpdateTarget();
+                if(other.gameObject.GetComponent<pointControl>().pointId == targetId)
+                {
+                    UpdateTarget();
+                }
             }
         }
     }
 
     private void UpdateTarget()
     {
-        
-        if(!PhotonNetwork.IsMasterClient) { return; }
-
-        targetId = targetId + 1;
-        if(targetId > targetCount - 1)
+        if(PhotonNetwork.IsMasterClient)
         {
-            targetId = 0;
+            targetId = targetId + 1;
+            if(targetId > targetCount - 1)
+            {
+                targetId = 0;
+            }
+            targetPoint = npcManager.spawnPoints.spawnPointsList[targetId];
         }
-        targetPoint = npcManager.spawnPoints.spawnPointsList[targetId];
     }
 }

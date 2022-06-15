@@ -41,6 +41,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - changePlayer
   - DestroyNpc
+  - Lose
+  - Win
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
