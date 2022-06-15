@@ -61,6 +61,10 @@ public class cshPlayerController : MonoBehaviour
     [ContextMenu("rotate")]
     void rotatePlayer()
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
         cvCam.Follow = null;
         anim.Play("rotate");
 
@@ -120,7 +124,6 @@ public class cshPlayerController : MonoBehaviour
 
         float angle = h;
 
-        Debug.Log(angle);
         float curRot = transform.eulerAngles.y;
 
         angle = angle * Mathf.Rad2Deg;
@@ -142,6 +145,7 @@ public class cshPlayerController : MonoBehaviour
         m_moveSpeed = idleSpeed;
     }
 
+    [PunRPC]
     public void changePlayer(int playerId)
     {
         GameObject npc = cshGameManager.instance.spawnPrefabs[playerId];
@@ -166,11 +170,9 @@ public class cshPlayerController : MonoBehaviour
         {
             
             npcControl npc = collision.gameObject.GetComponent<npcControl>();
-          
+            int id = collision.gameObject.GetComponent<PhotonView>().ViewID;
 
-            Destroy(collision.gameObject);
-
-            Debug.Log("playerId: " + playerId + "npcId: " + npc.id);
+            photonView.RPC("DestroyNpc", RpcTarget.All, id);
 
             if (playerId == npc.id)
             {
@@ -178,25 +180,23 @@ public class cshPlayerController : MonoBehaviour
 
                 idList.Remove(playerId);
 
-                Debug.Log("score: "+score);
-            
                 int newPlayerIdIndex = Random.Range(0, idList.Count); // 0, 1
-
                 int newPlayerId = idList[newPlayerIdIndex];
 
-                Debug.Log("newPlayerID: "+newPlayerId);
-
-                changePlayer(newPlayerId);
-
-               // rotatePlayer();
-
                 playerId = newPlayerId;
+
+                photonView.RPC("changePlayer", RpcTarget.All, playerId);
             }
             else
             {
                 hp--;
-                Debug.Log("hp: "+ hp);
             }
         }
+    }
+
+    [PunRPC]
+    private void DestroyNpc(int id)
+    {
+        Destroy(PhotonView.Find(id).gameObject);
     }
 }

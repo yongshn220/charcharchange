@@ -215,9 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoints: {fileID: 1943699190}
-  npcs:
-  - {fileID: 2151966726449788839, guid: 439f15e182b424bd0b7243ca3ba48ef7, type: 3}
-  - {fileID: 3800943415257459333, guid: cda62f1754bd74ce39df2344bfbd58db, type: 3}
+  gameManager: {fileID: 0}
 --- !u!4 &176206342
 Transform:
   m_ObjectHideFlags: 0
@@ -766,7 +764,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 2
   observableSearch: 2
   ObservedComponents:
   - {fileID: 2151966726898438087}

@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Cinemachine;
 
-public class cshGameManager : MonoBehaviour
+public class cshGameManager : MonoBehaviourPun
 {
     public GameObject[] spawnPrefabs;
     public int playerId;
@@ -22,6 +22,7 @@ public class cshGameManager : MonoBehaviour
     public CinemachineVirtualCamera cvCamera;
 
     private GameObject player;
+
     private void Awake()
     {
         instance = this;
@@ -36,7 +37,7 @@ public class cshGameManager : MonoBehaviour
 
         Debug.Log("gameManager playerId :" +playerId);
 
-        this.player = PhotonNetwork.Instantiate(this.playerPrefeab.name, new Vector3(24,0,-6), Quaternion.identity, 0);
+        this.player = PhotonNetwork.Instantiate(this.playerPrefeab.name, new Vector3(24,0,-21), Quaternion.identity, 0);
 
         setPlayerSetting();
     }

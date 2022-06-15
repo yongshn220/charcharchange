@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class npcControl : MonoBehaviour
 {
@@ -17,15 +19,25 @@ public class npcControl : MonoBehaviour
     public int targetCount;
 
     public float moveSpeed = 4.0f;
+
+    private PhotonView pv;
     void Start()
     {
+        pv = GetComponent<PhotonView>();
         npcManager = GetComponentInParent<npcManager>();
-
-        UpdateTarget();
+        Init();
     }
     void Update()
     {
+        if(!PhotonNetwork.IsMasterClient) { return; }
         Move();
+    }
+
+    void Init()
+    {
+        if(!PhotonNetwork.IsMasterClient) { return; }
+        moveSpeed = Random.Range(1,5);
+        UpdateTarget();
     }
 
     public void Move()
@@ -35,9 +47,11 @@ public class npcControl : MonoBehaviour
         transform.LookAt(targetPoint.transform);
     }
 
-    IEnumerator OnTriggerEnter(Collider other) {
-        yield return new WaitForSeconds(1.0f);
-        Debug.Log("trigger");
+    private void OnTriggerEnter(Collider other) {
+
+        
+        if(!PhotonNetwork.IsMasterClient) { return; }
+
         if(other.CompareTag("Point"))
         {
             if(other.gameObject.GetComponent<pointControl>().pointId == targetId)
@@ -49,6 +63,9 @@ public class npcControl : MonoBehaviour
 
     private void UpdateTarget()
     {
+        
+        if(!PhotonNetwork.IsMasterClient) { return; }
+
         targetId = targetId + 1;
         if(targetId > targetCount - 1)
         {

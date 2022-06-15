@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 
-
-public class npcManager : MonoBehaviour
+public class npcManager : MonoBehaviourPun
 {
 
     public spawnPointsControl spawnPoints;
@@ -14,7 +15,10 @@ public class npcManager : MonoBehaviour
     void Start()
     {
         gameManager = cshGameManager.instance;
-        spawnNpc();
+        if(PhotonNetwork.IsMasterClient)
+        {
+            spawnNpc();
+        }
     }
 
     private void spawnNpc()
@@ -24,7 +28,8 @@ public class npcManager : MonoBehaviour
 
             int id = Random.Range(0, 10);
 
-            GameObject npc = Instantiate(gameManager.spawnPrefabs[0], transform);
+            GameObject npc = PhotonNetwork.Instantiate(gameManager.spawnPrefabs[0].name, transform.position, Quaternion.identity, 0);
+            npc.transform.SetParent(transform);
             npc.GetComponent<npcControl>().targetId = point.GetComponent<pointControl>().pointId;
             npc.GetComponent<npcControl>().targetCount = spawnPoints.spawnPointsList.Count;
             npc.transform.position = point.transform.position;
