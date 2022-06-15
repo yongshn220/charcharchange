@@ -101,7 +101,7 @@ public class cshPlayerController : MonoBehaviour
         m_moveSpeed = cshGameManager.instance.m_moveSpeed;
 
 
-        Debug.Log("moveSpeed: " + cshGameManager.instance.m_moveSpeed);
+        //Debug.Log("moveSpeed: " + cshGameManager.instance.m_moveSpeed);
          textScore.text = "Score: " + score.ToString() + "   HP: " + hp.ToString();
     }
 
