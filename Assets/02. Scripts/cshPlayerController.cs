@@ -98,6 +98,8 @@ public class cshPlayerController : MonoBehaviour
 
         PlayerMove();
 
+        m_moveSpeed = cshGameManager.instance.m_moveSpeed;
+
 
         Debug.Log("moveSpeed: " + cshGameManager.instance.m_moveSpeed);
          textScore.text = "Score: " + score.ToString() + "   HP: " + hp.ToString();
@@ -117,11 +119,11 @@ public class cshPlayerController : MonoBehaviour
 
         if(v > 0)
         {
-            transform.position += transform.forward * cshGameManager.instance.m_moveSpeed * Time.deltaTime;
+            transform.position += transform.forward * m_moveSpeed * Time.deltaTime;
         }
         else if (v < 0)
         {
-            transform.position += -transform.forward * cshGameManager.instance.m_moveSpeed * Time.deltaTime;
+            transform.position += -transform.forward * m_moveSpeed * Time.deltaTime;
         }
 
         float angle = h;
