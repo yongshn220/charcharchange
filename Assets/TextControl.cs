@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
 public class TextControl : MonoBehaviour
 {
     cshGameManager gm;
@@ -10,7 +12,7 @@ public class TextControl : MonoBehaviour
     void Start()
     {
         gm = cshGameManager.instance;
-        text.text = PlayerPrefs.GetString("userId");
+        text.text = PhotonNetwork.NickName;
     }
 
     // Update is called once per frame
