@@ -18,6 +18,8 @@ public class cshPhotonManager : MonoBehaviourPunCallbacks
     public GameObject roomPref;
     public GameObject roomContents;
 
+    public GameObject lobbyUI;
+    public GameObject loadingUI;
     private Dictionary<string, GameObject> roomDict = new Dictionary<string, GameObject>();
     void Awake()
     {
@@ -31,7 +33,9 @@ public class cshPhotonManager : MonoBehaviourPunCallbacks
     }
 
     void Start()
-    {
+    {  
+        lobbyUI.SetActive(false);
+        loadingUI.SetActive(true);
         userId = PlayerPrefs.GetString("userId", $"USER_{Random.Range(0, 100):00}");
         
         userIdText.text = userId;
@@ -51,6 +55,9 @@ public class cshPhotonManager : MonoBehaviourPunCallbacks
         Debug.Log("2. connected Lobby");
         
         readyToJoin = true;
+
+        lobbyUI.SetActive(true);
+        loadingUI.SetActive(false);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

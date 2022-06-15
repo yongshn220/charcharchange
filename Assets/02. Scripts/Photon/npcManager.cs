@@ -10,7 +10,7 @@ public class npcManager : MonoBehaviourPun
 
     public spawnPointsControl spawnPoints;
     public cshGameManager gameManager;
-    private float speed = 1.0f;
+    
     // Start is called before the first frame update
     void Start()
     {

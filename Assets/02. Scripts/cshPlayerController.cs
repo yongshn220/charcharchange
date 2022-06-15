@@ -97,7 +97,7 @@ public class cshPlayerController : MonoBehaviour
             ResultText.text = "GAME OVER";
         }
 
-         textScore.text = "Score: " + score.ToString() + "HP: " + hp.ToString();
+         textScore.text = "Score: " + score.ToString() + "    HP: " + hp.ToString();
     }
 
 
